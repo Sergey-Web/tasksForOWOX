@@ -1,5 +1,5 @@
 <?php
 
-function luckyTickets(int $k): false {
+function luckyTickets(int $k): array {
 
 }

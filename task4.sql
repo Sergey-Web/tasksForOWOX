@@ -5,7 +5,7 @@ CREATE TABLE `products`
   `description` TEXT         NOT NULL,
   `price`       decimal(10, 2) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE = MyISAM;
+) ENGINE = InnoDB;
 
 CREATE TABLE `clients`
 (
@@ -13,7 +13,7 @@ CREATE TABLE `clients`
   `name`  VARCHAR(100) NOT NULL,
   `email` varchar(64)  NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE = MyISAM;
+) ENGINE = InnoDB;
 
 CREATE TABLE `orders`
 (
@@ -24,7 +24,7 @@ CREATE TABLE `orders`
   `client_phone` INT(10)     NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (client_id) REFERENCES clients (id) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = MyISAM;
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `order_product`
@@ -35,7 +35,7 @@ CREATE TABLE `order_product`
   PRIMARY KEY (`id`),
   FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = MyISAM;
+) ENGINE = InnoDB;
 
 CREATE INDEX orders_client_id ON orders (client_id);
 CREATE INDEX order_product_product_client_id ON order_product (order_id, product_id);
