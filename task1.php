@@ -1,27 +1,29 @@
+<?php
+
 function checkBrackets(string $s): bool {
-    $parenthesis = [')' => '(', ']' => '[', '}' => '{'];
-    $parenthesisClose = \array_keys($parenthesis);
-    $pattern = '/\[|\]|\(|\)|\{|\}/'; 
-    \preg_match_all($pattern, $s, $matches);
-    $res = [];
-    foreach ($matches[0] as $v) {
-        if (\array_search($v, $parenthesisClose) === false) {
-            array_push($res, $v);
-            continue;
-        }
+    $brackets = [
+        '(' => ')',
+        '[' => ']',
+        '{' => '}'
+    ];
 
-        if (empty($res)) {
-            $res[] = $v;
-            break;
-        }
+    preg_match_all('/\[|\]|\(|\)|\{|\}/', $s, $matches);
+    $substring = implode('', $matches[0]);
 
-        if (\end($res) === $parenthesis[$v]) {
-            \array_pop($res);    
-        } else {
-            break;
-        }
+    $prevLen = 0;
+    $curLen = strlen($substring);
 
+    $clearValidPair = function (&$string) use ($brackets, &$prevLen, &$curLen) {
+        foreach ($brackets as $startBracket => $endBracket) {
+            $string = str_replace($startBracket . $endBracket, '', $string);
+        }
+        $prevLen = $curLen;
+        $curLen = strlen($string);
+    };
+
+    while ($curLen !== $prevLen) {
+        $clearValidPair($substring);
     }
 
-    return !empty($res) ? false : true;
+    return empty($substring);
 }

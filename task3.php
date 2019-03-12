@@ -1,3 +1,5 @@
+<?php
+
 interface ILanguageSchool {
     function __construct(string $language);
     function setTypeLessons(string $type): ILanguageSchool;   
@@ -23,6 +25,10 @@ interface IPlanLanguageSchool {
 }
 
 abstract class AbstractCourse implements ITypeCourse, IPlanCourse {
+    /**
+     * @param string $type
+     * @return ITypeLessonsLanguageSchool
+     */
     public function setTypeLessons(string $type): ITypeLessonsLanguageSchool {
         if (!array_key_exists($type, $this->types)) {
             throw new \Exeption ('This course does not have this type of training.'); 
@@ -30,7 +36,11 @@ abstract class AbstractCourse implements ITypeCourse, IPlanCourse {
 
         return new $this->types[$type];
     }
-    
+
+    /**
+     * @param string $plan
+     * @return IPlanLanguageSchool
+     */
     public function setPlan(string $plan): IPlanLanguageSchool  {
         if (!array_key_exists($plan, $this->plans)) {
             throw new \Exeption ('This is no such tariff in this course.'); 
@@ -43,6 +53,9 @@ abstract class AbstractCourse implements ITypeCourse, IPlanCourse {
 class Speaking implements ITypeLessonsLanguageSchool {
     private $type = 'speaking';
 
+    /**
+     * @return string
+     */
     public function getType(): string
     {
         return $this->type;
@@ -52,6 +65,9 @@ class Speaking implements ITypeLessonsLanguageSchool {
 class Grammar implements ITypeLessonsLanguageSchool {
     private $type = 'grammar';
 
+    /**
+     * @return string
+     */
     public function getType(): string
     {
         return $this->type;
@@ -63,10 +79,16 @@ class Fixed implements IPlanLanguageSchool {
 
     private $unit = 'lesson';
 
+    /**
+     * @return int
+     */
     public function getCost(): int {
         return $this->cost;
     }
 
+    /**
+     * @return string
+     */
     public function getUnit(): string {
         return $this->unit;
     }
